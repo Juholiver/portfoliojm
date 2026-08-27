@@ -1,0 +1,922 @@
+/* =========================================================
+   VARIABLES & DESIGN TOKENS
+========================================================= */
+
+:root {
+  --font-serif: "Trajanus Roman", Georgia, serif;
+
+  --color-bg-dark: #080705;
+
+  --color-text-main: #ffffff;
+
+  --color-gold-light: #dfb56b;
+  --color-gold-main: #d4a95c;
+  --color-gold-muted: rgba(221, 174, 88, 0.75);
+
+  --color-border-gold: rgba(214, 166, 83, 0.28);
+
+  --ease-transition: ease;
+}
+
+
+/* =========================================================
+   PROJECTS MAIN CONTAINER
+========================================================= */
+
+.projects-section {
+  position: relative;
+
+  width: 100%;
+
+  height: auto;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  background: #080705;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.projects-background {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   BACKGROUND IMAGE
+========================================================= */
+
+.projects-background-image {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  /*
+   * O scale maior é importante para o parallax.
+   * Evita aparecerem espaços vazios nas bordas
+   * durante o movimento do GSAP.
+   */
+
+  object-fit: cover;
+
+  object-position: center center;
+
+  transform:
+    scale(1.08)
+    translate3d(0, 0, 0);
+
+  transform-origin: center center;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  filter:
+    saturate(0.9)
+    contrast(1)
+    brightness(2);
+
+  will-change: transform;
+
+  backface-visibility: hidden;
+
+  -webkit-backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND OVERLAY
+========================================================= */
+
+.projects-background-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  /*
+   * Overlay preservado do seu design.
+   * Mantém o background visível sem deixar
+   * os textos perderem contraste.
+   */
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 4, 3, 0.72) 0%,
+      rgba(5, 4, 3, 0.38) 45%,
+      rgba(5, 4, 3, 0.48) 100%
+    ),
+
+    linear-gradient(
+      180deg,
+      rgba(5, 4, 3, 0.5) 0%,
+      rgba(5, 4, 3, 0.08) 35%,
+      rgba(5, 4, 3, 0.65) 100%
+    );
+
+  will-change: transform, opacity;
+}
+
+
+/* =========================================================
+   BACKGROUND VIGNETTE
+========================================================= */
+
+.projects-background-vignette {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 25%,
+      rgba(0, 0, 0, 0.42) 100%
+    );
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.projects-container {
+  position: relative;
+
+  z-index: 10;
+
+  width: min(1400px, 100%);
+
+  margin: 0 auto;
+
+  padding:
+    150px
+    64px
+    180px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.projects-header {
+  max-width: 800px;
+
+  margin-bottom: 110px;
+
+  will-change: transform, opacity;
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.projects-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 28px;
+
+  color:
+    rgba(224, 181, 104, 0.85);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 12px;
+
+  letter-spacing: 0.2em;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.projects-title {
+  margin: 0;
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    clamp(
+      58px,
+      7vw,
+      105px
+    );
+
+  line-height: 0.95;
+
+  font-weight: normal;
+
+  letter-spacing: -0.025em;
+
+  text-shadow:
+    0 5px 25px
+    rgba(0, 0, 0, 0.8);
+}
+
+
+.projects-title span {
+  color:
+    var(--color-gold-main);
+}
+
+
+/* =========================================================
+   INTRODUCTION
+========================================================= */
+
+.projects-introduction {
+  max-width: 650px;
+
+  margin-top: 35px;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  text-shadow:
+    0 2px 12px
+    rgba(0, 0, 0, 0.9);
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.projects-category {
+  margin-top: 80px;
+}
+
+
+/* =========================================================
+   CATEGORY HEADER
+========================================================= */
+
+.projects-category-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  margin-bottom: 40px;
+}
+
+
+.projects-category-header > span {
+  color:
+    rgba(218, 171, 91, 0.7);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 12px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.projects-category-header p {
+  margin:
+    0
+    0
+    5px;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 9px;
+
+  letter-spacing: 0.25em;
+}
+
+
+.projects-category-header h3 {
+  margin: 0;
+
+  color:
+    var(--color-text-main);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 42px;
+
+  font-weight: normal;
+
+  letter-spacing: -0.02em;
+}
+
+
+/* =========================================================
+   GRID LAYOUTS
+========================================================= */
+
+.projects-grid,
+.backend-grid {
+  display: grid;
+
+  gap: 20px;
+}
+
+
+.projects-grid {
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+}
+
+
+.backend-category {
+  margin-top: 150px;
+}
+
+
+.backend-grid {
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+}
+
+
+/* =========================================================
+   PROJECT CARD
+========================================================= */
+
+.project-card {
+  position: relative;
+
+  min-height: 300px;
+
+  padding: 30px;
+
+  border:
+    1px solid
+    var(--color-border-gold);
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(10, 9, 7, 0.72),
+      rgba(5, 5, 5, 0.48)
+    );
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 25px 70px
+    rgba(0, 0, 0, 0.35);
+
+  transition:
+    transform 0.4s var(--ease-transition),
+    border-color 0.4s var(--ease-transition),
+    background 0.4s var(--ease-transition);
+
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.project-card:hover {
+  transform:
+    translateY(-8px);
+
+  border-color:
+    rgba(220, 174, 92, 0.65);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(25, 20, 13, 0.8),
+      rgba(8, 7, 6, 0.62)
+    );
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.project-card-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 55px;
+}
+
+
+/* =========================================================
+   PROJECT NUMBER
+========================================================= */
+
+.project-number {
+  color:
+    rgba(221, 174, 88, 0.65);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 10px;
+
+  letter-spacing: 0.15em;
+}
+
+
+/* =========================================================
+   PROJECT ICON
+========================================================= */
+
+.project-icon {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border:
+    1px solid
+    rgba(218, 171, 91, 0.22);
+
+  border-radius: 50%;
+
+  background:
+    rgba(0, 0, 0, 0.25);
+
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.project-card-content h3 {
+  margin: 0;
+
+  color:
+    var(--color-text-main);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 27px;
+
+  font-weight: normal;
+
+  line-height: 1.2;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.project-description {
+  max-width: 540px;
+
+  margin:
+    18px
+    0
+    20px;
+
+  color:
+    rgba(255, 255, 255, 0.65);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   TECHNOLOGIES
+========================================================= */
+
+.project-technologies {
+  margin: 0;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 10px;
+
+  line-height: 1.6;
+}
+
+
+.project-technologies span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color:
+    var(--color-gold-muted);
+
+  font-size: 9px;
+
+  letter-spacing: 0.15em;
+}
+
+
+/* =========================================================
+   PROJECT LINK
+========================================================= */
+
+.project-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 25px;
+
+  color:
+    var(--color-gold-light);
+
+  font-family:
+    var(--font-serif);
+
+  font-size: 11px;
+
+  text-decoration: none;
+
+  letter-spacing: 0.1em;
+
+  transition:
+    color 0.3s var(--ease-transition),
+    gap 0.3s var(--ease-transition);
+}
+
+
+.project-link:hover {
+  color:
+    var(--color-text-main);
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   PROJECT ARROW
+========================================================= */
+
+.project-arrow {
+  font-size: 17px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   PARALLAX DEPTH
+========================================================= */
+
+/*
+ * Não definimos transform fixo nos cards.
+ *
+ * O GSAP controla o transform durante o scroll.
+ *
+ * Isso evita conflito entre:
+ *
+ * transform do hover
+ *
+ * e
+ *
+ * transform do ScrollTrigger.
+ */
+
+.projects-background-image {
+  transform:
+    translate3d(0, 0, 0)
+    scale(1.08);
+}
+
+
+/* =========================================================
+   PARALLAX OVERLAY
+========================================================= */
+
+.projects-background-overlay {
+  transform:
+    translate3d(0, 0, 0);
+
+  will-change:
+    transform;
+}
+
+
+/* =========================================================
+   PARALLAX HEADER
+========================================================= */
+
+.projects-header {
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* =========================================================
+   PARALLAX CARDS
+========================================================= */
+
+.project-card {
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .projects-container {
+    padding:
+      120px
+      40px
+      150px;
+  }
+
+
+  .projects-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .backend-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .projects-title {
+    font-size:
+      clamp(
+        52px,
+        7vw,
+        82px
+      );
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .projects-background-image {
+    width: 150%;
+
+    height: 110%;
+
+    transform:
+      translate3d(0, 0, 0)
+      scale(1.04);
+  }
+
+
+  .projects-background-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(5, 4, 3, 0.62),
+        rgba(5, 4, 3, 0.35) 45%,
+        rgba(5, 4, 3, 0.78)
+      );
+  }
+
+
+  .projects-container {
+    padding:
+      100px
+      24px
+      120px;
+  }
+
+
+  .projects-header {
+    margin-bottom: 70px;
+  }
+
+
+  .projects-title {
+    font-size:
+      clamp(
+        46px,
+        12vw,
+        70px
+      );
+  }
+
+
+  .projects-introduction {
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+
+  .projects-category {
+    margin-top: 60px;
+  }
+
+
+  .projects-category-header h3 {
+    font-size: 34px;
+  }
+
+
+  .projects-grid,
+  .backend-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .project-card {
+    min-height: auto;
+
+    padding: 24px;
+  }
+
+
+  .project-card-top {
+    margin-bottom: 40px;
+  }
+
+
+  .project-card-content h3 {
+    font-size: 24px;
+  }
+
+
+  .backend-category {
+    margin-top: 100px;
+  }
+
+
+  /*
+   * No mobile deixamos o movimento
+   * mais suave.
+   */
+
+  .projects-background-image {
+    will-change:
+      transform;
+  }
+
+
+  .projects-header,
+  .project-card {
+    will-change:
+      auto;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .projects-container {
+    padding:
+      90px
+      20px
+      100px;
+  }
+
+
+  .projects-title {
+    font-size:
+      clamp(
+        40px,
+        12vw,
+        60px
+      );
+  }
+
+
+  .project-card {
+    border-radius: 16px;
+
+    padding: 20px;
+  }
+
+
+  .project-description {
+    font-size: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .projects-background-image,
+  .projects-background-overlay,
+  .projects-header,
+  .project-card {
+    transform: none !important;
+
+    opacity: 1 !important;
+
+    transition: none !important;
+
+    will-change: auto;
+  }
+
+}

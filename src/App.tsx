@@ -2,6 +2,7 @@ import { Header } from "./components/Header/Header";
 import { SmoothScroll } from "./components/SmoothScroll/SmoothScroll";
 import { ParallaxHero } from "./components/ParallaxHero/ParallaxHero";
 import { About } from "./components/About/About";
+import { Projects } from "./components/Projetos/Projects";
 
 function App() {
   return (
@@ -18,17 +19,9 @@ function App() {
 
       <section
         id="projects"
-        className="scroll-section secondary-section"
+    
       >
-        <div className="scroll-section-content">
-          <span>02</span>
-
-          <h2>Projetos</h2>
-
-          <p>
-            Em breve vamos criar o Stacking Cards.
-          </p>
-        </div>
+        <Projects />
       </section>
 
       <section
