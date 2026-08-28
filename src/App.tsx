@@ -3,6 +3,7 @@ import { SmoothScroll } from "./components/SmoothScroll/SmoothScroll";
 import { ParallaxHero } from "./components/ParallaxHero/ParallaxHero";
 import { About } from "./components/About/About";
 import { Projects } from "./components/Projetos/Projects";
+import { Skills } from "./components/Habilidades/Skills";
 
 function App() {
   return (
@@ -17,26 +18,12 @@ function App() {
         <About />
       </section>
 
-      <section
-        id="projects"
-    
-      >
+      <section id="projects">
         <Projects />
       </section>
 
-      <section
-        id="skills"
-        className="scroll-section"
-      >
-        <div className="scroll-section-content">
-          <span>03</span>
-
-          <h2>Habilidades</h2>
-
-          <p>
-            Em breve vamos colocar sua stack.
-          </p>
-        </div>
+      <section id="skills">
+        <Skills />
       </section>
 
       <section

@@ -1,24 +1,10 @@
-* {
-  box-sizing: border-box;
-}
+/* =========================================================
+   APP GLOBAL
+========================================================= */
 
-html {
-  margin: 0;
-  padding: 0;
-
-  background: #02040b;
-
-  scroll-behavior: auto;
-  
-}
-
-body {
-  margin: 0;
-  padding: 0;
-
-  min-width: 320px;
-
-  background: #02040b;
+:root {
+  background: #020817;
+  color: #ffffff;
 
   font-family:
     Inter,
@@ -28,16 +14,34 @@ body {
     "Segoe UI",
     sans-serif;
 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+
+  background: #020817;
+}
+
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 button,
-a {
+a,
+input,
+textarea,
+select {
   font: inherit;
-}
-
-img {
-  display: block;
-  max-width: 100%;
 }

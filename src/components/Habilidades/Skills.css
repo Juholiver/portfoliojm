@@ -1,0 +1,1308 @@
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+  --skills-font: "Trajanus Roman", Georgia, serif;
+
+  --skills-bg: #080705;
+
+  --skills-text: #ffffff;
+
+  --skills-gold-light: #dfb56b;
+
+  --skills-gold-main: #d4a95c;
+
+  --skills-gold-muted:
+    rgba(221, 174, 88, 0.7);
+
+  --skills-border:
+    rgba(214, 166, 83, 0.28);
+
+  --skills-ease: ease;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.skills-section {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  background: var(--skills-bg);
+
+  color: var(--skills-text);
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.skills-background {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  pointer-events: none;
+}
+
+
+.skills-background-image {
+  position: absolute;
+
+  /*
+   * Deixamos maior que a section para o
+   * movimento do parallax não revelar
+   * áreas vazias.
+   */
+
+  top: -5%;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 110%;
+
+  object-fit: cover;
+
+  object-position: center center;
+
+  transform:
+    translate3d(0, 0, 0);
+
+  will-change: transform;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  /*
+   * Mantém a imagem visível,
+   * mas melhora a leitura dos cards.
+   */
+
+  filter:
+    saturate(0.85)
+    contrast(1.05)
+    brightness(0.78);
+
+  backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND OVERLAY
+========================================================= */
+
+.skills-background-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 5, 6, 0.78) 0%,
+      rgba(4, 5, 6, 0.40) 40%,
+      rgba(4, 5, 6, 0.42) 60%,
+      rgba(4, 5, 6, 0.78) 100%
+    ),
+
+    linear-gradient(
+      180deg,
+      rgba(4, 5, 6, 0.72) 0%,
+      rgba(4, 5, 6, 0.18) 25%,
+      rgba(4, 5, 6, 0.18) 70%,
+      rgba(4, 5, 6, 0.85) 100%
+    );
+}
+
+
+/* =========================================================
+   VIGNETTE
+========================================================= */
+
+.skills-background-vignette {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 30%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.skills-container {
+  position: relative;
+
+  z-index: 10;
+
+  width: min(
+    1400px,
+    100%
+  );
+
+  margin: 0 auto;
+
+  padding:
+    150px
+    64px
+    180px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.skills-header {
+  max-width: 800px;
+
+  margin-bottom: 110px;
+}
+
+
+.skills-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 28px;
+
+  color:
+    rgba(224, 181, 104, 0.85);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 12px;
+
+  letter-spacing: 0.2em;
+
+  text-shadow:
+    0 2px 12px
+    rgba(0, 0, 0, 0.8);
+}
+
+
+.skills-title {
+  margin: 0;
+
+  font-family:
+    var(--skills-font);
+
+  font-size:
+    clamp(
+      58px,
+      7vw,
+      105px
+    );
+
+  line-height: 0.95;
+
+  font-weight: normal;
+
+  letter-spacing: -0.025em;
+
+  text-shadow:
+    0 5px 25px
+    rgba(0, 0, 0, 0.85);
+}
+
+
+.skills-title span {
+  color:
+    var(--skills-gold-main);
+
+  text-shadow:
+    0 3px 20px
+    rgba(190, 135, 55, 0.15);
+}
+
+
+.skills-introduction {
+  max-width: 650px;
+
+  margin-top: 35px;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  text-shadow:
+    0 2px 12px
+    rgba(0, 0, 0, 0.9);
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.skills-category {
+  margin-top: 80px;
+}
+
+
+.skills-category-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  margin-bottom: 40px;
+}
+
+
+.skills-category-header > span {
+  color:
+    rgba(218, 171, 91, 0.7);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 12px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.skills-category-header p {
+  margin:
+    0
+    0
+    5px;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 9px;
+
+  letter-spacing: 0.25em;
+}
+
+
+.skills-category-header h3 {
+  margin: 0;
+
+  color:
+    var(--skills-text);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 42px;
+
+  font-weight: normal;
+
+  letter-spacing: -0.02em;
+}
+
+
+/* =========================================================
+   SKILLS GRID
+========================================================= */
+
+.skills-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   SKILL CARD
+========================================================= */
+
+.skill-card {
+  position: relative;
+
+  min-height: 240px;
+
+  padding: 30px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--skills-border);
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 10, 11, 0.76),
+      rgba(5, 5, 5, 0.48)
+    );
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 25px 70px
+    rgba(0, 0, 0, 0.35);
+
+  transition:
+    transform 0.4s var(--skills-ease),
+    border-color 0.4s var(--skills-ease),
+    background 0.4s var(--skills-ease);
+}
+
+
+.skill-card:hover {
+  transform:
+    translateY(-8px);
+
+  border-color:
+    rgba(220, 174, 92, 0.65);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(25, 20, 13, 0.82),
+      rgba(8, 7, 6, 0.62)
+    );
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.skill-card-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 45px;
+}
+
+
+.skill-number {
+  color:
+    rgba(221, 174, 88, 0.65);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 10px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.skill-icon {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 44px;
+
+  height: 44px;
+
+  border:
+    1px solid
+    rgba(218, 171, 91, 0.22);
+
+  border-radius: 50%;
+
+  background:
+    rgba(0, 0, 0, 0.28);
+
+  color:
+    var(--skills-gold-light);
+
+  font-size: 18px;
+
+  box-shadow:
+    0 0 20px
+    rgba(218, 171, 91, 0.05);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.skill-card-content h3 {
+  margin: 0;
+
+  color:
+    var(--skills-text);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 27px;
+
+  font-weight: normal;
+
+  line-height: 1.2;
+}
+
+
+.skill-card-content p {
+  max-width: 540px;
+
+  margin:
+    18px
+    0
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.63);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   CARD GOLD LINE
+========================================================= */
+
+.skill-card-line {
+  position: absolute;
+
+  left: 30px;
+
+  bottom: 0;
+
+  width: 70px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(221, 174, 88, 0.8),
+      transparent
+    );
+
+  transition:
+    width 0.4s ease;
+}
+
+
+.skill-card:hover .skill-card-line {
+  width: 150px;
+}
+
+
+/* =========================================================
+   FORMATION
+========================================================= */
+
+.formation-section {
+  margin-top: 170px;
+}
+
+
+.formation-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  margin-bottom: 55px;
+}
+
+
+.formation-header > span {
+  color:
+    rgba(218, 171, 91, 0.7);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 12px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.formation-header p {
+  margin:
+    0
+    0
+    5px;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 9px;
+
+  letter-spacing: 0.25em;
+}
+
+
+.formation-header h3 {
+  margin: 0;
+
+  color:
+    #ffffff;
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 42px;
+
+  font-weight: normal;
+}
+
+
+/* =========================================================
+   FORMATION LAYOUT
+========================================================= */
+
+.formation-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(400px, 1.1fr);
+
+  align-items: center;
+
+  gap: 80px;
+}
+
+
+/* =========================================================
+   FORMATION CONTENT
+========================================================= */
+
+.formation-content {
+  max-width: 600px;
+}
+
+
+.formation-label {
+  display: inline-block;
+
+  margin-bottom: 25px;
+
+  color:
+    rgba(224, 181, 104, 0.8);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 10px;
+
+  letter-spacing: 0.2em;
+}
+
+
+.formation-content h3 {
+  margin: 0;
+
+  color:
+    #ffffff;
+
+  font-family:
+    var(--skills-font);
+
+  font-size:
+    clamp(
+      38px,
+      4vw,
+      58px
+    );
+
+  line-height: 1.05;
+
+  font-weight: normal;
+
+  text-shadow:
+    0 5px 25px
+    rgba(0, 0, 0, 0.8);
+}
+
+
+.formation-content h3 span {
+  color:
+    var(--skills-gold-main);
+}
+
+
+.formation-content > p {
+  max-width: 540px;
+
+  margin-top: 30px;
+
+  color:
+    rgba(255, 255, 255, 0.65);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 14px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   FORMATION DETAILS
+========================================================= */
+
+.formation-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 18px;
+
+  margin-top: 40px;
+}
+
+
+.formation-details div {
+  padding:
+    20px;
+
+  border:
+    1px solid
+    rgba(214, 166, 83, 0.2);
+
+  border-radius: 14px;
+
+  background:
+    rgba(5, 5, 5, 0.38);
+
+  backdrop-filter:
+    blur(8px);
+}
+
+
+.formation-details span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color:
+    rgba(221, 174, 88, 0.65);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 8px;
+
+  letter-spacing: 0.2em;
+}
+
+
+.formation-details strong {
+  color:
+    rgba(255, 255, 255, 0.8);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+  font-weight: normal;
+}
+
+
+/* =========================================================
+   DIPLOMA AREA
+========================================================= */
+
+.diploma-area {
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 520px;
+}
+
+
+/* =========================================================
+   DIPLOMA GLOW
+========================================================= */
+
+.diploma-glow {
+  position: absolute;
+
+  width: 600px;
+
+  height: 500px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(205, 160, 76, 0.20) 0%,
+      rgba(205, 160, 76, 0.08) 45%,
+      transparent 72%
+    );
+
+  filter:
+    blur(30px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   DIPLOMA FRAME
+========================================================= */
+
+.diploma-frame {
+  position: relative;
+
+  width: min(
+    600px,
+    100%
+  );
+
+  padding: 14px;
+
+  border:
+    1px solid
+    rgba(221, 174, 88, 0.65);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(46, 35, 19, 0.85),
+      rgba(9, 8, 6, 0.92)
+    );
+
+  box-shadow:
+    0 0 0 5px
+      rgba(201, 151, 67, 0.07),
+
+    0 0 0 10px
+      rgba(201, 151, 67, 0.03),
+
+    0 35px 90px
+      rgba(0, 0, 0, 0.65);
+
+  transform:
+    rotate(-1deg);
+
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+
+.diploma-frame:hover {
+  transform:
+    rotate(0deg)
+    translateY(-8px);
+
+  box-shadow:
+    0 0 0 5px
+      rgba(201, 151, 67, 0.10),
+
+    0 0 0 10px
+      rgba(201, 151, 67, 0.05),
+
+    0 40px 100px
+      rgba(0, 0, 0, 0.75);
+}
+
+
+/* =========================================================
+   DIPLOMA INNER
+========================================================= */
+
+.diploma-frame-inner {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    #080705;
+}
+
+
+.diploma-image {
+  display: block;
+
+  width: 100%;
+
+  height: auto;
+
+  max-height: 520px;
+
+  object-fit: contain;
+
+  filter:
+    contrast(1.03)
+    saturate(0.85);
+
+  transition:
+    transform 0.6s ease;
+}
+
+
+.diploma-frame:hover .diploma-image {
+  transform:
+    scale(1.025);
+}
+
+
+/* =========================================================
+   DIPLOMA OVERLAY
+========================================================= */
+
+.diploma-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02),
+      transparent 50%,
+      rgba(0, 0, 0, 0.18)
+    );
+}
+
+
+/* =========================================================
+   DIPLOMA CAPTION
+========================================================= */
+
+.diploma-caption {
+  position: relative;
+
+  z-index: 5;
+
+  margin-top: 24px;
+
+  color:
+    rgba(224, 181, 104, 0.72);
+
+  font-family:
+    var(--skills-font);
+
+  font-size: 9px;
+
+  letter-spacing: 0.25em;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   SCROLL HINT
+========================================================= */
+
+.skills-scroll-hint {
+  position: absolute;
+
+  z-index: 30;
+
+  right: 64px;
+
+  bottom: 45px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  color:
+    rgba(255, 255, 255, 0.4);
+
+  font-family:
+    var(--skills-font);
+}
+
+
+.skills-scroll-hint span {
+  font-size: 8px;
+
+  letter-spacing: 0.25em;
+}
+
+
+.skills-scroll-hint div {
+  width: 50px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(221, 174, 88, 0.7),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .skills-container {
+    padding:
+      120px
+      40px
+      150px;
+  }
+
+
+  .skills-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .formation-layout {
+    grid-template-columns:
+      1fr;
+
+    gap: 70px;
+  }
+
+
+  .formation-content {
+    max-width: 750px;
+  }
+
+
+  .diploma-area {
+    min-height: auto;
+  }
+
+
+  .diploma-frame {
+    width: min(
+      650px,
+      100%
+    );
+  }
+
+
+  .skills-title {
+    font-size:
+      clamp(
+        52px,
+        7vw,
+        82px
+      );
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .skills-background-image {
+    top: -2%;
+
+    width: 120%;
+
+    height: 104%;
+
+    left: -10%;
+  }
+
+
+  .skills-background-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(4, 5, 6, 0.72),
+        rgba(4, 5, 6, 0.34) 40%,
+        rgba(4, 5, 6, 0.82) 100%
+      );
+  }
+
+
+  .skills-container {
+    padding:
+      100px
+      24px
+      120px;
+  }
+
+
+  .skills-header {
+    margin-bottom: 70px;
+  }
+
+
+  .skills-title {
+    font-size:
+      clamp(
+        46px,
+        12vw,
+        70px
+      );
+  }
+
+
+  .skills-introduction {
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+
+  .skills-category {
+    margin-top: 60px;
+  }
+
+
+  .skills-category-header h3 {
+    font-size: 34px;
+  }
+
+
+  .skill-card {
+    min-height: auto;
+
+    padding: 24px;
+  }
+
+
+  .skill-card-top {
+    margin-bottom: 40px;
+  }
+
+
+  .skill-card-content h3 {
+    font-size: 24px;
+  }
+
+
+  .skill-card-content p {
+    font-size: 12px;
+  }
+
+
+  .formation-section {
+    margin-top: 110px;
+  }
+
+
+  .formation-header h3 {
+    font-size: 34px;
+  }
+
+
+  .formation-layout {
+    gap: 55px;
+  }
+
+
+  .formation-content h3 {
+    font-size:
+      clamp(
+        36px,
+        10vw,
+        52px
+      );
+  }
+
+
+  .formation-content > p {
+    font-size: 13px;
+  }
+
+
+  .formation-details {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .diploma-area {
+    min-height: auto;
+
+    padding-top: 10px;
+  }
+
+
+  .diploma-frame {
+    width: 100%;
+
+    padding: 9px;
+
+    transform:
+      rotate(0deg);
+  }
+
+
+  .diploma-frame:hover {
+    transform:
+      translateY(-5px);
+  }
+
+
+  .skills-scroll-hint {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .skills-container {
+    padding:
+      90px
+      20px
+      100px;
+  }
+
+
+  .skills-title {
+    font-size:
+      clamp(
+        40px,
+        12vw,
+        60px
+      );
+  }
+
+
+  .skills-introduction {
+    font-size: 13px;
+  }
+
+
+  .skill-card {
+    padding: 20px;
+
+    border-radius: 16px;
+  }
+
+
+  .skill-card-content h3 {
+    font-size: 22px;
+  }
+
+
+  .formation-header h3 {
+    font-size: 30px;
+  }
+
+
+  .formation-details div {
+    padding: 16px;
+  }
+
+
+  .diploma-frame {
+    padding: 7px;
+  }
+
+
+  .diploma-caption {
+    font-size: 8px;
+  }
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .skills-background-image,
+  .skill-card,
+  .diploma-frame,
+  .diploma-image {
+    transform: none !important;
+
+    transition: none !important;
+  }
+}

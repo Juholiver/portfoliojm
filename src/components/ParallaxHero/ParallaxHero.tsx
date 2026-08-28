@@ -12,6 +12,15 @@ gsap.registerPlugin(
   useGSAP
 );
 
+interface ParallaxLayer {
+  selector: string;
+  mouseX: number;
+  mouseY: number;
+  scrollY: number;
+  scale?: number;
+  rotation?: number;
+}
+
 export function ParallaxHero() {
   const heroRef = useRef<HTMLElement>(null);
 
@@ -23,22 +32,127 @@ export function ParallaxHero() {
 
       /*
        * =====================================================
-       * SETUP DAS CAMADAS PARALLAX
+       * CONFIGURAÇÃO DO PARALLAX
+       * =====================================================
+       *
+       * Quanto mais perto da câmera:
+       *
+       * - maior mouseX
+       * - maior mouseY
+       * - maior scrollY
+       * - maior scale
+       *
+       * Isso cria a sensação de profundidade 2.5D.
+       */
+
+      const layers: ParallaxLayer[] = [
+        {
+          selector: ".layer-sky",
+          mouseX: 3,
+          mouseY: 1.5,
+          scrollY: 8,
+          scale: 1.01,
+        },
+
+        {
+          selector: ".layer-city",
+          mouseX: 7,
+          mouseY: 3,
+          scrollY: 18,
+          scale: 1.02,
+        },
+
+        {
+          selector: ".layer-environment",
+          mouseX: 13,
+          mouseY: 6,
+          scrollY: 32,
+          scale: 1.04,
+        },
+
+        {
+          selector: ".layer-foreground",
+          mouseX: 28,
+          mouseY: 15,
+          scrollY: 55,
+          scale: 1.08,
+          rotation: 0.6,
+        },
+      ];
+
+      /*
+       * =====================================================
+       * CONFIGURAÇÃO INICIAL
        * =====================================================
        */
 
-      const layers = gsap.utils.toArray<HTMLElement>(
-        ".parallax-layer"
+      layers.forEach(
+        ({
+          selector,
+          scale = 1,
+        }) => {
+          gsap.set(selector, {
+            xPercent: -50,
+            yPercent: -50,
+
+            left: "50%",
+            top: "50%",
+
+            scale,
+          });
+        }
       );
 
-      layers.forEach((layer) => {
-        gsap.set(layer, {
-          xPercent: -50,
-          yPercent: -50,
-          left: "50%",
-          top: "50%",
-        });
-      });
+      /*
+       * =====================================================
+       * PARALLAX DO MOUSE
+       * =====================================================
+       */
+
+      const mouseAnimations = layers.map(
+        ({
+          selector,
+          mouseX,
+          mouseY,
+          rotation = 0,
+        }) => {
+          const x = gsap.quickTo(
+            selector,
+            "x",
+            {
+              duration: 1.4,
+              ease: "power3.out",
+            }
+          );
+
+          const y = gsap.quickTo(
+            selector,
+            "y",
+            {
+              duration: 1.4,
+              ease: "power3.out",
+            }
+          );
+
+          const rotate = gsap.quickTo(
+            selector,
+            "rotation",
+            {
+              duration: 1.8,
+              ease: "power3.out",
+            }
+          );
+
+          return {
+            x,
+            y,
+            rotate,
+            mouseX,
+            mouseY,
+            rotation,
+          };
+        }
+      );
 
       /*
        * =====================================================
@@ -46,63 +160,25 @@ export function ParallaxHero() {
        * =====================================================
        */
 
-      const xSky = gsap.quickTo(
-        ".layer-sky",
-        "x",
-        {
-          duration: 1.2,
-          ease: "power2.out",
-        }
-      );
-
-      const ySky = gsap.quickTo(
-        ".layer-sky",
-        "y",
-        {
-          duration: 1.2,
-          ease: "power2.out",
-        }
-      );
-
-      const xCity = gsap.quickTo(
-        ".layer-city",
-        "x",
-        {
-          duration: 1.2,
-          ease: "power2.out",
-        }
-      );
-
-      const yCity = gsap.quickTo(
-        ".layer-city",
-        "y",
-        {
-          duration: 1.2,
-          ease: "power2.out",
-        }
-      );
-
-      const xEnv = gsap.quickTo(
-        ".layer-environment",
-        "x",
-        {
-          duration: 1.2,
-          ease: "power2.out",
-        }
-      );
-
-      const yEnv = gsap.quickTo(
-        ".layer-environment",
-        "y",
-        {
-          duration: 1.2,
-          ease: "power2.out",
-        }
-      );
-
       const handleMouseMove = (
         event: MouseEvent
       ) => {
+        /*
+         * Não executar parallax de mouse
+         * em dispositivos pequenos.
+         */
+
+        if (window.innerWidth <= 768) {
+          return;
+        }
+
+        /*
+         * Transformamos a posição do mouse
+         * em um valor entre aproximadamente:
+         *
+         * -1 -------- 0 -------- +1
+         */
+
         const mouseX =
           (event.clientX /
             window.innerWidth -
@@ -115,14 +191,38 @@ export function ParallaxHero() {
             0.5) *
           2;
 
-        xSky(mouseX * 4);
-        ySky(mouseY * 2);
+        mouseAnimations.forEach(
+          ({
+            x,
+            y,
+            rotate,
+            mouseX: strengthX,
+            mouseY: strengthY,
+            rotation,
+          }) => {
+            x(
+              mouseX *
+                strengthX
+            );
 
-        xCity(mouseX * 8);
-        yCity(mouseY * 4);
+            y(
+              mouseY *
+                strengthY
+            );
 
-        xEnv(mouseX * 14);
-        yEnv(mouseY * 7);
+            /*
+             * Rotação extremamente pequena.
+             *
+             * Isso ajuda a criar sensação
+             * de câmera 2.5D.
+             */
+
+            rotate(
+              mouseX *
+                rotation
+            );
+          }
+        );
       };
 
       window.addEventListener(
@@ -132,22 +232,99 @@ export function ParallaxHero() {
 
       /*
        * =====================================================
-       * ANIMAÇÃO INICIAL
+       * PARALLAX DURANTE O SCROLL
+       * =====================================================
+       *
+       * Cada camada possui uma velocidade diferente.
+       *
+       * O foreground é o que mais se movimenta.
+       */
+
+      layers.forEach(
+        ({
+          selector,
+          scrollY,
+        }) => {
+          gsap.to(selector, {
+            yPercent:
+              -50 -
+              scrollY,
+
+            ease: "none",
+
+            scrollTrigger: {
+              trigger:
+                heroRef.current,
+
+              start:
+                "top top",
+
+              end:
+                "bottom top",
+
+              scrub: 1,
+            },
+          });
+        }
+      );
+
+      /*
+       * =====================================================
+       * MOVIMENTO EXTRA DA FOREGROUND
+       * =====================================================
+       *
+       * O personagem e a mesa são os elementos
+       * mais próximos da câmera.
+       *
+       * Durante o scroll eles crescem levemente.
+       */
+
+      gsap.to(
+        ".layer-foreground",
+        {
+          scale: 1.14,
+
+          ease: "none",
+
+          scrollTrigger: {
+            trigger:
+              heroRef.current,
+
+            start:
+              "top top",
+
+            end:
+              "bottom top",
+
+            scrub: 1,
+          },
+        }
+      );
+
+      /*
+       * =====================================================
+       * INTRO
        * =====================================================
        */
 
-      const intro = gsap.timeline({
-        defaults: {
-          ease: "power3.out",
-        },
-      });
+      const intro =
+        gsap.timeline({
+          defaults: {
+            ease: "power3.out",
+          },
+        });
 
       intro
-        .from(".hero-badge", {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-        })
+
+        .from(
+          ".hero-badge",
+          {
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+          }
+        )
+
         .from(
           ".hero-title",
           {
@@ -157,6 +334,7 @@ export function ParallaxHero() {
           },
           "-=0.4"
         )
+
         .from(
           ".hero-description",
           {
@@ -166,6 +344,7 @@ export function ParallaxHero() {
           },
           "-=0.5"
         )
+
         .from(
           ".hero-actions",
           {
@@ -178,27 +357,32 @@ export function ParallaxHero() {
 
       /*
        * =====================================================
-       * HERO FADE / SCALE DURANTE O SCROLL
+       * HERO FADE / SCALE
        * =====================================================
        */
 
-      gsap.to(".hero-inner", {
-        scrollTrigger: {
-          trigger: heroRef.current,
+      gsap.to(
+        ".hero-inner",
+        {
+          scale: 0.92,
+          opacity: 0.3,
 
-          start: "top top",
+          ease: "none",
 
-          end: "bottom top",
+          scrollTrigger: {
+            trigger:
+              heroRef.current,
 
-          scrub: true,
-        },
+            start:
+              "top top",
 
-        scale: 0.92,
+            end:
+              "bottom top",
 
-        opacity: 0.3,
-
-        ease: "none",
-      });
+            scrub: 1,
+          },
+        }
+      );
 
       /*
        * =====================================================
@@ -230,23 +414,22 @@ export function ParallaxHero() {
     const smoother =
       ScrollSmoother.get();
 
-    if (!smoother) {
-      const section =
-        document.getElementById(id);
-
-      section?.scrollIntoView({
-        behavior: "smooth",
-
-        block: "start",
-      });
+    if (smoother) {
+      smoother.scrollTo(
+        `#${id}`,
+        true
+      );
 
       return;
     }
 
-    smoother.scrollTo(
-      `#${id}`,
-      true
-    );
+    const section =
+      document.getElementById(id);
+
+    section?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   return (
@@ -262,27 +445,65 @@ export function ParallaxHero() {
 
         <div className="hero-background">
 
+          {/* =================================================
+              SKY
+          ================================================= */}
+
           <img
-            src="/images/parallax/01-sky.png"
+            src="/images/parallax/01-sky1.png"
             alt=""
-            className="parallax-layer layer-sky"
-            data-speed="0.15"
+            className="
+              parallax-layer
+              layer-sky
+            "
             aria-hidden="true"
           />
 
+          {/* =================================================
+              CITY
+          ================================================= */}
+
           <img
-            src="/images/parallax/02-city.png"
+            src="/images/parallax/02-city1.png"
             alt=""
-            className="parallax-layer layer-city"
-            data-speed="0.35"
+            className="
+              parallax-layer
+              layer-city
+            "
             aria-hidden="true"
           />
 
+          {/* =================================================
+              ENVIRONMENT
+          ================================================= */}
+
           <img
-            src="/images/parallax/03-char.png"
+            src="/images/parallax/03-environment1.png"
             alt=""
-            className="parallax-layer layer-environment"
-            data-speed="0.6"
+            className="
+              parallax-layer
+              layer-environment
+            "
+            aria-hidden="true"
+          />
+
+          {/* =================================================
+              FOREGROUND
+              
+              PERSONAGEM
+              MESA
+              COMPUTADOR
+              LIVROS
+              LUMINÁRIA
+          ================================================= */}
+
+          <img
+            src="/images/parallax/04-foreground1.png"
+            alt=""
+            className="
+              parallax-layer
+              layer-foreground
+            "
             aria-hidden="true"
           />
 
@@ -292,7 +513,10 @@ export function ParallaxHero() {
             OVERLAY
         ================================================= */}
 
-        <div className="hero-overlay" />
+        <div
+          className="hero-overlay"
+          aria-hidden="true"
+        />
 
         {/* =================================================
             CONTENT
@@ -307,7 +531,10 @@ export function ParallaxHero() {
           <h1 className="hero-title">
             José Mario
             <br />
-            <span>Developer.</span>
+
+            <span>
+              Developer.
+            </span>
           </h1>
 
           <p className="hero-description">
@@ -321,6 +548,7 @@ export function ParallaxHero() {
           <div className="hero-actions">
 
             <button
+              type="button"
               className="hero-button"
               onClick={() =>
                 scrollToSection(
@@ -332,7 +560,11 @@ export function ParallaxHero() {
             </button>
 
             <button
-              className="hero-button hero-button-outline"
+              type="button"
+              className="
+                hero-button
+                hero-button-outline
+              "
               onClick={() =>
                 scrollToSection(
                   "about"
@@ -350,12 +582,15 @@ export function ParallaxHero() {
             SCROLL INDICATOR
         ================================================= */}
 
-        <div className="scroll-indicator">
-
+        <div
+          className="scroll-indicator"
+          aria-hidden="true"
+        >
           <span />
 
-          <p>SCROLL</p>
-
+          <p>
+            SCROLL
+          </p>
         </div>
 
       </div>

@@ -10,17 +10,20 @@
   min-height: 720px;
 
   overflow: hidden;
-
   isolation: isolate;
 
-  background: radial-gradient(
-    circle at 70% 15%,
-    #17477e 0%,
-    #0b2850 28%,
-    #06152d 55%,
-    #020817 100%
-  );
+  background:
+    radial-gradient(
+      circle at 72% 18%,
+      #000000 0%,
+      #000000 15%,
+      #000000 32%,
+      #010a18 52%,
+      #000000 72%,
+      #020817 100%
+    );
 }
+
 
 /* =========================================================
    HERO INNER
@@ -32,8 +35,13 @@
   width: 100%;
   height: 100%;
 
-  will-change: transform, opacity;
+  overflow: hidden;
+
+  will-change:
+    transform,
+    opacity;
 }
+
 
 /* =========================================================
    BACKGROUND
@@ -48,13 +56,111 @@
 
   overflow: hidden;
 
-  background: radial-gradient(
-    circle at 70% 20%,
-    rgba(35, 83, 150, 0.5) 0%,
-    rgba(10, 35, 70, 0.5) 35%,
-    #020817 100%
-  );
+  background:
+    radial-gradient(
+      circle at 70% 20%,
+      rgba(12, 33, 61, 0.5) 0%,
+      rgba(5, 27, 56, 0.5) 35%,
+      #020817 100%
+    );
 }
+
+
+/* =========================================================
+   PARALLAX LAYERS
+========================================================= */
+
+.parallax-layer {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 110%;
+  height: 110%;
+
+  /*
+   * Importante:
+   *
+   * O transform será controlado pelo GSAP.
+   */
+
+  transform:
+    translate3d(
+      -50%,
+      -50%,
+      0
+    );
+
+  object-fit: cover;
+
+  object-position: center center;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  will-change: transform;
+
+  backface-visibility: hidden;
+
+  transform-style: preserve-3d;
+
+  /*
+   * Pequeno aumento evita que o movimento
+   * revele bordas da imagem.
+   */
+
+  transform-origin: center center;
+}
+
+
+/* =========================================================
+   SKY
+========================================================= */
+
+.layer-sky {
+  z-index: 1;
+}
+
+
+/* =========================================================
+   CITY
+========================================================= */
+
+.layer-city {
+  z-index: 2;
+}
+
+
+/* =========================================================
+   ENVIRONMENT
+========================================================= */
+
+.layer-environment {
+  z-index: 3;
+}
+
+
+/* =========================================================
+   FOREGROUND
+========================================================= */
+
+.layer-foreground {
+  z-index: 4;
+
+  /*
+   * A foreground está propositalmente acima
+   * das outras camadas.
+   */
+
+  filter:
+    drop-shadow(
+      0 25px 35px
+      rgba(0, 0, 0, 0.25)
+    );
+}
+
 
 /* =========================================================
    BACKGROUND ATMOSPHERE
@@ -71,13 +177,15 @@
 
   pointer-events: none;
 
-  background: linear-gradient(
-    180deg,
-    rgba(2, 8, 23, 0.05) 0%,
-    rgba(2, 8, 23, 0) 55%,
-    rgba(2, 8, 23, 0.5) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2, 8, 23, 0.05) 0%,
+      rgba(2, 8, 23, 0) 55%,
+      rgba(2, 8, 23, 0.5) 100%
+    );
 }
+
 
 /* =========================================================
    HERO OVERLAY
@@ -99,6 +207,7 @@
       rgba(0, 0, 0, 0.25) 40%,
       rgba(0, 0, 0, 0.05) 75%
     ),
+
     linear-gradient(
       180deg,
       rgba(0, 0, 0, 0.05) 0%,
@@ -107,53 +216,6 @@
     );
 }
 
-/* =========================================================
-   PARALLAX LAYERS
-   ========================================================= */
-
-.parallax-layer {
-  position: absolute;
-
-  top: 50%;
-  left: 50%;
-
-  width: 110%;
-  height: 110%;
-
-  object-fit: cover;
-  object-position: center center;
-
-  transform: translate3d(-50%, -50%, 0);
-
-  pointer-events: none;
-  user-select: none;
-
-  will-change: transform;
-
-  backface-visibility: hidden;
-
-  transform-style: preserve-3d;
-}
-
-/* =========================================================
-   PARALLAX Z-INDEX
-========================================================= */
-
-.layer-sky {
-  z-index: 1;
-}
-
-.layer-city {
-  z-index: 2;
-}
-
-.layer-environment {
-  z-index: 3;
-}
-
-.layer-foreground {
-  z-index: 4;
-}
 
 /* =========================================================
    HERO CONTENT
@@ -164,13 +226,18 @@
 
   z-index: 30;
 
-  width: min(1200px, 100%);
+  width:
+    min(
+      1200px,
+      100%
+    );
 
   min-height: 100vh;
 
   margin: 0 auto;
 
-  padding: 0 64px;
+  padding:
+    0 64px;
 
   display: flex;
 
@@ -181,7 +248,20 @@
   align-items: flex-start;
 
   color: #ffffff;
+
+  pointer-events: none;
 }
+
+
+/*
+ * Os elementos interativos precisam
+ * continuar clicáveis.
+ */
+
+.hero-content button {
+  pointer-events: auto;
+}
+
 
 /* =========================================================
    BADGE
@@ -194,18 +274,41 @@
 
   margin-bottom: 24px;
 
-  padding: 8px 14px;
+  padding:
+    8px 14px;
 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
 
   border-radius: 999px;
 
-  background: rgba(255, 255, 255, 0.06);
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter:
+    blur(10px);
 
-  color: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.8
+    );
 
   font-size: 11px;
 
@@ -213,6 +316,7 @@
 
   letter-spacing: 0.2em;
 }
+
 
 /* =========================================================
    TITLE
@@ -223,7 +327,12 @@
 
   max-width: 900px;
 
-  font-size: clamp(64px, 9vw, 140px);
+  font-size:
+    clamp(
+      64px,
+      9vw,
+      140px
+    );
 
   line-height: 0.88;
 
@@ -232,12 +341,25 @@
   letter-spacing: -0.06em;
 
   text-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.4);
+    0 10px 40px
+    rgba(
+      0,
+      0,
+      0,
+      0.4
+    );
 }
 
 .hero-title span {
-  color: rgba(255, 255, 255, 0.58);
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.58
+    );
 }
+
 
 /* =========================================================
    DESCRIPTION
@@ -246,14 +368,22 @@
 .hero-description {
   max-width: 560px;
 
-  margin: 32px 0 0;
+  margin:
+    32px 0 0;
 
-  color: rgba(255, 255, 255, 0.72);
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
 
   font-size: 18px;
 
   line-height: 1.7;
 }
+
 
 /* =========================================================
    BUTTONS
@@ -270,7 +400,8 @@
 .hero-button {
   border: 0;
 
-  padding: 15px 24px;
+  padding:
+    15px 24px;
 
   border-radius: 999px;
 
@@ -293,26 +424,56 @@
 }
 
 .hero-button:hover {
-  transform: translateY(-3px);
+  transform:
+    translateY(-3px);
 
   box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.25);
+    0 10px 30px
+    rgba(
+      0,
+      0,
+      0,
+      0.25
+    );
 }
 
 .hero-button-outline {
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.25
+    );
 
-  background: rgba(255, 255, 255, 0.08);
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
 
   color: #ffffff;
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
 }
 
 .hero-button-outline:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
 }
+
 
 /* =========================================================
    SCROLL INDICATOR
@@ -326,7 +487,8 @@
   bottom: 40px;
   left: 50%;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   display: flex;
 
@@ -336,7 +498,13 @@
 
   gap: 10px;
 
-  color: rgba(255, 255, 255, 0.55);
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.55
+    );
 
   pointer-events: none;
 }
@@ -346,13 +514,23 @@
 
   height: 50px;
 
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(255, 255, 255, 0.8)
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(
+        255,
+        255,
+        255,
+        0.8
+      )
+    );
 
-  animation: scrollLine 2s ease-in-out infinite;
+  animation:
+    scrollLine
+    2s
+    ease-in-out
+    infinite;
 }
 
 .scroll-indicator p {
@@ -363,6 +541,7 @@
   letter-spacing: 0.3em;
 }
 
+
 /* =========================================================
    SCROLL INDICATOR ANIMATION
 ========================================================= */
@@ -372,7 +551,8 @@
   100% {
     opacity: 0.3;
 
-    transform: scaleY(0.7);
+    transform:
+      scaleY(0.7);
 
     transform-origin: top;
   }
@@ -380,15 +560,16 @@
   50% {
     opacity: 1;
 
-    transform: scaleY(1);
+    transform:
+      scaleY(1);
 
     transform-origin: top;
   }
 }
 
+
 /* =========================================================
    TEMPORARY SECTIONS
-   Estas serão substituídas pelas seções reais depois.
 ========================================================= */
 
 .scroll-section {
@@ -409,10 +590,17 @@
   color: #ffffff;
 
   border-top-left-radius: 32px;
+
   border-top-right-radius: 32px;
 
   box-shadow:
-    0 -20px 50px rgba(0, 0, 0, 0.6);
+    0 -20px 50px
+    rgba(
+      0,
+      0,
+      0,
+      0.6
+    );
 }
 
 .secondary-section {
@@ -421,14 +609,20 @@
   box-shadow: none;
 }
 
+
 /* =========================================================
    TEMPORARY SECTION CONTENT
 ========================================================= */
 
 .scroll-section-content {
-  width: min(900px, 90%);
+  width:
+    min(
+      900px,
+      90%
+    );
 
-  padding: 120px 0;
+  padding:
+    120px 0;
 }
 
 .scroll-section-content span {
@@ -436,7 +630,13 @@
 
   margin-bottom: 20px;
 
-  color: rgba(255, 255, 255, 0.3);
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.3
+    );
 
   font-size: 14px;
 
@@ -446,7 +646,12 @@
 .scroll-section-content h2 {
   margin: 0;
 
-  font-size: clamp(48px, 7vw, 100px);
+  font-size:
+    clamp(
+      48px,
+      7vw,
+      100px
+    );
 
   line-height: 0.95;
 
@@ -456,12 +661,19 @@
 .scroll-section-content p {
   margin-top: 30px;
 
-  color: rgba(255, 255, 255, 0.55);
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.55
+    );
 
   font-size: 18px;
 
   line-height: 1.6;
 }
+
 
 /* =========================================================
    TABLET
@@ -469,11 +681,17 @@
 
 @media (max-width: 1024px) {
   .hero-content {
-    padding: 0 40px;
+    padding:
+      0 40px;
   }
 
   .hero-title {
-    font-size: clamp(60px, 10vw, 110px);
+    font-size:
+      clamp(
+        60px,
+        10vw,
+        110px
+      );
   }
 
   .hero-description {
@@ -482,6 +700,7 @@
     font-size: 17px;
   }
 }
+
 
 /* =========================================================
    MOBILE
@@ -495,13 +714,15 @@
   .hero-content {
     width: 100%;
 
-    padding: 0 24px;
+    padding:
+      0 24px;
   }
 
   .hero-badge {
     margin-bottom: 20px;
 
-    padding: 7px 12px;
+    padding:
+      7px 12px;
 
     font-size: 9px;
   }
@@ -509,7 +730,12 @@
   .hero-title {
     max-width: 100%;
 
-    font-size: clamp(52px, 15vw, 90px);
+    font-size:
+      clamp(
+        52px,
+        15vw,
+        90px
+      );
 
     line-height: 0.9;
   }
@@ -539,7 +765,17 @@
   .hero-button {
     min-width: 170px;
 
-    padding: 14px 22px;
+    padding:
+      14px 22px;
+  }
+
+  /*
+   * No celular não usamos o efeito
+   * agressivo de foreground.
+   */
+
+  .layer-foreground {
+    scale: 1;
   }
 
   .scroll-indicator {
@@ -552,23 +788,31 @@
 
   .scroll-section {
     border-top-left-radius: 20px;
+
     border-top-right-radius: 20px;
   }
 
   .scroll-section-content {
     width: 90%;
 
-    padding: 100px 0;
+    padding:
+      100px 0;
   }
 
   .scroll-section-content h2 {
-    font-size: clamp(44px, 12vw, 72px);
+    font-size:
+      clamp(
+        44px,
+        12vw,
+        72px
+      );
   }
 
   .scroll-section-content p {
     font-size: 16px;
   }
 }
+
 
 /* =========================================================
    SMALL MOBILE
@@ -580,11 +824,17 @@
   }
 
   .hero-content {
-    padding: 0 20px;
+    padding:
+      0 20px;
   }
 
   .hero-title {
-    font-size: clamp(48px, 15vw, 70px);
+    font-size:
+      clamp(
+        48px,
+        15vw,
+        70px
+      );
   }
 
   .hero-description {
@@ -604,11 +854,16 @@
   }
 }
 
+
 /* =========================================================
    REDUCE MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+  .parallax-layer {
+    will-change: auto;
+  }
+
   .scroll-indicator span {
     animation: none;
   }
